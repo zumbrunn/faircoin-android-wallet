@@ -4,7 +4,7 @@
     package="de.schildbach.wallet_test"
     android:installLocation="internalOnly"
     android:versionCode="298"
-    android:versionName="5.18-test" >
+    android:versionName="5.18" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -81,7 +81,7 @@
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
-                <data android:mimeType="application/x-btctx" />
+                <data android:mimeType="application/x-fairtx" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -101,7 +101,7 @@
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.intent.action.VIEW" />
 
-                <data android:scheme="bitcoin" />
+                <data android:scheme="faircoin" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -109,21 +109,21 @@
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
-                <data android:scheme="bitcoin" />
+                <data android:scheme="faircoin" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.intent.action.VIEW" />
 
-                <data android:mimeType="application/bitcoin-paymentrequest" />
+                <data android:mimeType="application/faircoin-paymentrequest" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
-                <data android:mimeType="application/bitcoin-paymentrequest" />
+                <data android:mimeType="application/faircoin-paymentrequest" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -172,7 +172,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="application/x-bitcoin-wallet-backup" />
+                <data android:mimeType="application/x-faircoin-wallet-backup" />
             </intent-filter>
         </activity>
         <activity

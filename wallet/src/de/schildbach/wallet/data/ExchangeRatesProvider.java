@@ -74,9 +74,8 @@ public class ExchangeRatesProvider extends ContentProvider {
     private Map<String, ExchangeRate> exchangeRates = null;
     private long lastUpdated = 0;
 
-    private static final HttpUrl BITCOINAVERAGE_URL = HttpUrl
-            .parse("https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC");
-    private static final String BITCOINAVERAGE_SOURCE = "BitcoinAverage.com";
+    private static final HttpUrl GETFAIRCOIN_URL = HttpUrl.parse("https://chain.fair-coin.org/download/ticker");
+    private static final String GETFAIRCOIN_SOURCE = "getfaircoin.org";
 
     private static final long UPDATE_FREQ_MS = 10 * DateUtils.MINUTE_IN_MILLIS;
 
@@ -228,7 +227,7 @@ public class ExchangeRatesProvider extends ContentProvider {
         final Stopwatch watch = Stopwatch.createStarted();
 
         final Request.Builder request = new Request.Builder();
-        request.url(BITCOINAVERAGE_URL);
+        request.url(GETFAIRCOIN_URL);
         request.header("User-Agent", userAgent);
 
         final Call call = Constants.HTTP_CLIENT.newCall(request.build());
@@ -241,36 +240,28 @@ public class ExchangeRatesProvider extends ContentProvider {
 
                 for (final Iterator<String> i = head.keys(); i.hasNext();) {
                     final String currencyCode = i.next();
-                    if (currencyCode.startsWith("BTC")) {
-                        final String fiatCurrencyCode = currencyCode.substring(3);
-                        if (!fiatCurrencyCode.equals(MonetaryFormat.CODE_BTC)
-                                && !fiatCurrencyCode.equals(MonetaryFormat.CODE_MBTC)
-                                && !fiatCurrencyCode.equals(MonetaryFormat.CODE_UBTC)) {
-                            final JSONObject exchangeRate = head.getJSONObject(currencyCode);
-                            final JSONObject averages = exchangeRate.getJSONObject("averages");
-                            try {
-                                final Fiat rate = parseFiatInexact(fiatCurrencyCode, averages.getString("day"));
-                                if (rate.signum() > 0)
-                                    rates.put(fiatCurrencyCode, new ExchangeRate(
-                                            new org.bitcoinj.utils.ExchangeRate(rate), BITCOINAVERAGE_SOURCE));
-                            } catch (final IllegalArgumentException x) {
-                                log.warn("problem fetching {} exchange rate from {}: {}", currencyCode,
-                                        BITCOINAVERAGE_URL, x.getMessage());
-                            }
-                        }
+                    final JSONObject exchangeRate = head.getJSONObject(currencyCode);
+                    try {
+                        final Fiat rate = parseFiatInexact(currencyCode, exchangeRate.getString("last"));
+                        if (rate.signum() > 0)
+                            rates.put(currencyCode, new ExchangeRate(
+                                    new org.bitcoinj.utils.ExchangeRate(rate), GETFAIRCOIN_SOURCE));
+                    } catch (final IllegalArgumentException x) {
+                        log.warn("problem fetching {} exchange rate from {}: {}", currencyCode,
+                                GETFAIRCOIN_URL, x.getMessage());
                     }
                 }
 
                 watch.stop();
-                log.info("fetched exchange rates from {}, {} chars, took {}", BITCOINAVERAGE_URL, content.length(),
+                log.info("fetched exchange rates from {}, {} chars, took {}", GETFAIRCOIN_URL, content.length(),
                         watch);
 
                 return rates;
             } else {
-                log.warn("http status {} when fetching exchange rates from {}", response.code(), BITCOINAVERAGE_URL);
+                log.warn("http status {} when fetching exchange rates from {}", response.code(), GETFAIRCOIN_URL);
             }
         } catch (final Exception x) {
-            log.warn("problem fetching exchange rates from " + BITCOINAVERAGE_URL, x);
+            log.warn("problem fetching exchange rates from " + GETFAIRCOIN_URL, x);
         }
 
         return null;

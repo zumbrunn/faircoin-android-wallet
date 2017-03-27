@@ -84,10 +84,10 @@ public final class Constants {
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
         /** Filename of the manual key backup (old format, can only be read). */
-        public static final String EXTERNAL_WALLET_KEY_BACKUP = "bitcoin-wallet-keys" + FILENAME_NETWORK_SUFFIX;
+        public static final String EXTERNAL_WALLET_KEY_BACKUP = "faircoin-wallet-keys" + FILENAME_NETWORK_SUFFIX;
 
         /** Filename of the manual wallet backup. */
-        public static final String EXTERNAL_WALLET_BACKUP = "bitcoin-wallet-backup" + FILENAME_NETWORK_SUFFIX;
+        public static final String EXTERNAL_WALLET_BACKUP = "faircoin-wallet-backup" + FILENAME_NETWORK_SUFFIX;
 
         /** Filename of the block store for storing the chain. */
         public static final String BLOCKCHAIN_FILENAME = "blockchain" + FILENAME_NETWORK_SUFFIX;
@@ -107,34 +107,34 @@ public final class Constants {
 
     /** Currency code for the wallet name resolver. */
     public static final String WALLET_NAME_CURRENCY_CODE = NETWORK_PARAMETERS.getId()
-            .equals(NetworkParameters.ID_MAINNET) ? "btc" : "tbtc";
+            .equals(NetworkParameters.ID_MAINNET) ? "fair" : "tfair";
 
     /** URL to fetch version alerts from. */
-    public static final HttpUrl VERSION_URL = HttpUrl.parse("https://wallet.schildbach.de/version");
+    public static final HttpUrl VERSION_URL = HttpUrl.parse("https://chain.fair-coin.org/download/android-wallet-version");
     /** URL to fetch dynamic fees from. */
-    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://wallet.schildbach.de/fees");
+    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://chain.fair-coin.org/download/fees");
 
     /** MIME type used for transmitting single transactions. */
-    public static final String MIMETYPE_TRANSACTION = "application/x-btctx";
+    public static final String MIMETYPE_TRANSACTION = "application/x-fairtx";
 
     /** MIME type used for transmitting wallet backups. */
-    public static final String MIMETYPE_WALLET_BACKUP = "application/x-bitcoin-wallet-backup";
+    public static final String MIMETYPE_WALLET_BACKUP = "application/x-faircoin-wallet-backup";
 
     /** Number of confirmations until a transaction is fully confirmed. */
     public static final int MAX_NUM_CONFIRMATIONS = 7;
 
     /** User-agent to use for network access. */
-    public static final String USER_AGENT = "Bitcoin Wallet";
+    public static final String USER_AGENT = "FairCoin Wallet";
 
     /** Default currency to use if all default mechanisms fail. */
     public static final String DEFAULT_EXCHANGE_CURRENCY = "USD";
 
     /** Donation address for tip/donate action. */
     public static final String DONATION_ADDRESS = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET)
-            ? "17dttYQer4DNLbx2c3etc7abx2MC7RhzG6" : null;
+            ? "fairVs8iHyLzgHQrdxb9j6hR4WGpdDbKN3" : null;
 
     /** Recipient e-mail address for reports. */
-    public static final String REPORT_EMAIL = "bitcoin.wallet.developers@gmail.com";
+    public static final String REPORT_EMAIL = "android.wallet@fair-coin.org";
 
     /** Subject line for manually reported issues. */
     public static final String REPORT_SUBJECT_ISSUE = "Reported issue";
@@ -156,8 +156,8 @@ public final class Constants {
 
     public static final BaseEncoding HEX = BaseEncoding.base16().lowerCase();
 
-    public static final String SOURCE_URL = "https://github.com/bitcoin-wallet/bitcoin-wallet";
-    public static final String BINARY_URL = "https://github.com/bitcoin-wallet/bitcoin-wallet/releases";
+    public static final String SOURCE_URL = "https://github.com/faircoin/faircoin-android-wallet";
+    public static final String BINARY_URL = "https://github.com/faircoin/faircoin-android-wallet/releases";
     public static final String MARKET_APP_URL = "market://details?id=%s";
     public static final String WEBMARKET_APP_URL = "https://play.google.com/store/apps/details?id=%s";
 
