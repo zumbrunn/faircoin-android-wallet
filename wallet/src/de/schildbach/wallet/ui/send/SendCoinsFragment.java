@@ -1005,6 +1005,7 @@ public final class SendCoinsFragment extends Fragment {
         sendRequest.emptyWallet = paymentIntent.mayEditAmount()
                 && finalAmount.equals(wallet.getBalance(BalanceType.AVAILABLE));
         sendRequest.feePerKb = fees.get(feeCategory);
+        //sendRequest.feePerKb = wallet.getCurrentTransactionFee();
         sendRequest.memo = paymentIntent.memo;
         sendRequest.exchangeRate = amountCalculatorLink.getExchangeRate();
         sendRequest.aesKey = encryptionKey;
@@ -1188,6 +1189,7 @@ public final class SendCoinsFragment extends Fragment {
                     sendRequest.emptyWallet = paymentIntent.mayEditAmount()
                             && amount.equals(wallet.getBalance(BalanceType.AVAILABLE));
                     sendRequest.feePerKb = fees.get(feeCategory);
+                    //sendRequest.feePerKb = wallet.getCurrentTransactionFee();
                     wallet.completeTx(sendRequest);
                     dryrunTransaction = sendRequest.tx;
                 } catch (final Exception x) {
