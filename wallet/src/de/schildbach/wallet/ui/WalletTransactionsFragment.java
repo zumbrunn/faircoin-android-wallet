@@ -338,7 +338,7 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
                 case R.id.wallet_transactions_context_browse:
                     if (!txRotation)
                         startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.withAppendedPath(config.getBlockExplorer(), "tx/" + tx.getHashAsString())));
+                                Uri.withAppendedPath(config.getBlockExplorer(), "transaction?transaction=" + tx.getHashAsString())));
                     else
                         startActivity(new Intent(Intent.ACTION_VIEW, KEY_ROTATION_URI));
                     return true;
