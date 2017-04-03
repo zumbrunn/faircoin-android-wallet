@@ -187,9 +187,9 @@ public final class Constants {
 
     /** Default ports for Electrum servers */
     public static final int ELECTRUM_SERVER_DEFAULT_PORT_TCP = NETWORK_PARAMETERS.getId()
-            .equals(NetworkParameters.ID_MAINNET) ? 50001 : 51001;
+            .equals(NetworkParameters.ID_MAINNET) ? 51811 : 50811;
     public static final int ELECTRUM_SERVER_DEFAULT_PORT_TLS = NETWORK_PARAMETERS.getId()
-            .equals(NetworkParameters.ID_MAINNET) ? 50002 : 51002;
+            .equals(NetworkParameters.ID_MAINNET) ? 51812 : 50812;
 
     /** Shared HTTP client, can reuse connections */
     public static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
