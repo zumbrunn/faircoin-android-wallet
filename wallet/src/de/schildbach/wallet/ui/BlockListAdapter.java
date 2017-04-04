@@ -259,10 +259,12 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.Bloc
     }
 
     public final boolean isMiningRewardHalvingPoint(final StoredBlock storedPrev) {
-        return ((storedPrev.getHeight() + 1) % 210000) == 0;
+        // there is no such thing in FairCoin
+        return false;
     }
 
     public final boolean isDifficultyTransitionPoint(final StoredBlock storedPrev) {
-        return ((storedPrev.getHeight() + 1) % Constants.NETWORK_PARAMETERS.getInterval()) == 0;
+        // there is no such thing in FairCoin
+        return false;
     }
 }
