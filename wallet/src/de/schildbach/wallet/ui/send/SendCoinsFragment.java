@@ -874,6 +874,7 @@ public final class SendCoinsFragment extends Fragment {
 
         final MenuItem feeCategoryAction = menu.findItem(R.id.send_coins_options_fee_category);
         feeCategoryAction.setEnabled(state == State.INPUT);
+        feeCategoryAction.setVisible(false); // disable fee categories
         if (feeCategory == FeeCategory.ECONOMIC)
             menu.findItem(R.id.send_coins_options_fee_category_economic).setChecked(true);
         else if (feeCategory == FeeCategory.NORMAL)
