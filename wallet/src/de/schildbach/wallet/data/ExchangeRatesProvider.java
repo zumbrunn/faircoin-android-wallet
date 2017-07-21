@@ -74,8 +74,8 @@ public class ExchangeRatesProvider extends ContentProvider {
     private Map<String, ExchangeRate> exchangeRates = null;
     private long lastUpdated = 0;
 
-    private static final HttpUrl GETFAIRCOIN_URL = HttpUrl.parse("https://chain.fair-coin.org/download/ticker");
-    private static final String GETFAIRCOIN_SOURCE = "getfaircoin.org";
+    private static final HttpUrl GETFAIRCOIN_URL = HttpUrl.parse("https://download.faircoin.world/api/ticker");
+    private static final String GETFAIRCOIN_SOURCE = "getfaircoin.net";
 
     private static final long UPDATE_FREQ_MS = 10 * DateUtils.MINUTE_IN_MILLIS;
 

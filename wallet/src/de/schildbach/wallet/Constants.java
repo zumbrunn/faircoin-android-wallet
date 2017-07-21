@@ -110,9 +110,9 @@ public final class Constants {
             .equals(NetworkParameters.ID_MAINNET) ? "fair" : "tfair";
 
     /** URL to fetch version alerts from. */
-    public static final HttpUrl VERSION_URL = HttpUrl.parse("https://chain.fair-coin.org/download/android-wallet-version");
+    public static final HttpUrl VERSION_URL = HttpUrl.parse("https://download.faircoin.world/api/android-wallet-version");
     /** URL to fetch dynamic fees from. */
-    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://chain.fair-coin.org/download/fees");
+    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://download.faircoin.world/api/fees");
 
     /** MIME type used for transmitting single transactions. */
     public static final String MIMETYPE_TRANSACTION = "application/x-fairtx";
@@ -157,7 +157,7 @@ public final class Constants {
     public static final BaseEncoding HEX = BaseEncoding.base16().lowerCase();
 
     public static final String SOURCE_URL = "https://github.com/faircoin/faircoin-android-wallet";
-    public static final String BINARY_URL = "https://github.com/faircoin/faircoin-android-wallet/releases";
+    public static final String BINARY_URL = "https://download.faircoin.world/";
     public static final String MARKET_APP_URL = "market://details?id=%s";
     public static final String WEBMARKET_APP_URL = "https://play.google.com/store/apps/details?id=%s";
 
