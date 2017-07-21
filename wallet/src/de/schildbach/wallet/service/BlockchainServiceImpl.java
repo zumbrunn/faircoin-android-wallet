@@ -28,6 +28,7 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -568,6 +569,12 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
         if (wallet.isFairCoin1Upgrade()) {
             log.info("FairCoin1 upgrade detected. Deleteing old blockchain file");
             blockChainFile.delete();
+            config.resetBestChainHeightEver();
+        }
+
+        if (Calendar.getInstance().get(Calendar.YEAR) == 2017 && config.getBestChainHeightEver() > 100000) {
+            log.info("Excessive best height detected in configuration. Resetting it.");
+            config.resetBestChainHeightEver();
         }
 
         final boolean blockChainFileExists = blockChainFile.exists();
