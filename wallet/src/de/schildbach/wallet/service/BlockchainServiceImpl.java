@@ -572,7 +572,10 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
             config.resetBestChainHeightEver();
         }
 
-        if (Calendar.getInstance().get(Calendar.YEAR) == 2017 && config.getBestChainHeightEver() > 100000) {
+        /* In case there is a FairCoin1 blockchain we reset the 'best chain ever' config value.
+           This check is needed because there were early versions of this wallet w/o the fix above.
+           This check can be safely removed in one of the next versions. */
+        if ((Calendar.getInstance().get(Calendar.YEAR) == 2018) && (config.getBestChainHeightEver() > 300000)) {
             log.info("Excessive best height detected in configuration. Resetting it.");
             config.resetBestChainHeightEver();
         }
