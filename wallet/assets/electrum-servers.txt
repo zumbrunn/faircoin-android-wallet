@@ -1,2 +1,2 @@
 tls:electrum.faircoin.world
-tcp:electrumfair.punto0.org
+tls:electrumfair.punto0.org
