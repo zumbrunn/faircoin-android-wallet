@@ -43,8 +43,8 @@ public class Configuration {
     private final SharedPreferences prefs;
     private final Resources res;
 
-    private static final String GETFAIRCOIN_URL = "https://download.faircoin.world/api/ticker";
-    private static final String GETFAIRCOIN_SOURCE = "getfaircoin.net";
+    public static final String GETFAIRCOIN_URL = "https://download.faircoin.world/api/ticker";
+    public static final String GETFAIRCOIN_SOURCE = "getfaircoin.net";
 
     public static final String PREFS_KEY_BTC_PRECISION = "btc_precision";
     public static final String PREFS_KEY_OWN_NAME = "own_name";

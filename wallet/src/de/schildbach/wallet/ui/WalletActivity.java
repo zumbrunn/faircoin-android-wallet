@@ -240,6 +240,13 @@ public final class WalletActivity extends AbstractWalletActivity {
             i.setComponent(name);
 
             startActivityForResult(i, REQUEST_CODE_RATES_ADDON);
+        } else {
+            // If there are no addons installed, fallback to the default rates (getfaircoin)
+            Configuration config = application.getConfiguration();
+
+            config.setExchangeRatesSource(Configuration.GETFAIRCOIN_SOURCE);
+            config.setExchangeRatesUrl(Configuration.GETFAIRCOIN_URL);
+
         }
     }
 
