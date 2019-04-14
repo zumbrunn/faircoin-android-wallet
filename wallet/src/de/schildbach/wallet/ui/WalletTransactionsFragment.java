@@ -295,7 +295,7 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
         popupMenu.getMenu().findItem(R.id.wallet_transactions_context_show_qr)
                 .setVisible(!txRotation && txSerialized.length < SHOW_QR_THRESHOLD_BYTES);
         popupMenu.getMenu().findItem(R.id.wallet_transactions_context_raise_fee)
-                .setVisible(RaiseFeeDialogFragment.feeCanLikelyBeRaised(wallet, tx));
+                .setVisible(false); // fees are defined in the blockchain in FairCoin2
         popupMenu.getMenu().findItem(R.id.wallet_transactions_context_browse).setVisible(Constants.ENABLE_BROWSE);
         popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
@@ -323,7 +323,7 @@ public class WalletTransactionsFragment extends Fragment implements Transactions
                         final Uri blockExplorerUri = config.getBlockExplorer();
                         log.info("Viewing transaction {} on {}", tx.getTxId(), blockExplorerUri);
                         startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.withAppendedPath(blockExplorerUri, "tx/" + tx.getTxId().toString())));
+                                Uri.withAppendedPath(config.getBlockExplorer(), "transaction?transaction=" + tx.getHashAsString())));
                     } else {
                         startActivity(new Intent(Intent.ACTION_VIEW, KEY_ROTATION_URI));
                     }

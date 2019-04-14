@@ -67,7 +67,7 @@ public class Configuration {
     private static final String PREFS_KEY_LAST_BACKUP = "last_backup";
     private static final String PREFS_KEY_LAST_BLUETOOTH_ADDRESS = "last_bluetooth_address";
 
-    private static final int PREFS_DEFAULT_BTC_SHIFT = 3;
+    private static final int PREFS_DEFAULT_BTC_SHIFT = 0;
     private static final int PREFS_DEFAULT_BTC_PRECISION = 2;
 
     private static final Logger log = LoggerFactory.getLogger(Configuration.class);
@@ -229,6 +229,10 @@ public class Configuration {
     public void maybeIncrementBestChainHeightEver(final int bestChainHeightEver) {
         if (bestChainHeightEver > getBestChainHeightEver())
             prefs.edit().putInt(PREFS_KEY_BEST_CHAIN_HEIGHT_EVER, bestChainHeightEver).apply();
+    }
+
+    public void resetBestChainHeightEver() {
+        prefs.edit().putInt(PREFS_KEY_BEST_CHAIN_HEIGHT_EVER, 0).apply();
     }
 
     public ExchangeRate getCachedExchangeRate() {

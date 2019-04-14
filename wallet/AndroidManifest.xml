@@ -7,9 +7,7 @@
     android:versionName="7.06" >
 
     <uses-sdk
-        android:minSdkVersion="21"
-        android:targetSdkVersion="28"
-        tools:ignore="OldTargetApi" />
+            tools:ignore="OldTargetApi" />
 
     <!-- normal permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -82,7 +80,7 @@
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
-                <data android:mimeType="application/x-btctx" />
+                <data android:mimeType="application/x-fairtx" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -101,8 +99,7 @@
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.intent.action.VIEW" />
 
-                <data android:scheme="bitcoin" />
-                <data android:scheme="BITCOIN" />
+                <data android:scheme="faircoin" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -110,21 +107,21 @@
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
-                <data android:scheme="bitcoin" />
+                <data android:scheme="faircoin" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.intent.action.VIEW" />
 
-                <data android:mimeType="application/bitcoin-paymentrequest" />
+                <data android:mimeType="application/faircoin-paymentrequest" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
-                <data android:mimeType="application/bitcoin-paymentrequest" />
+                <data android:mimeType="application/faircoin-paymentrequest" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -172,7 +169,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="application/x-bitcoin-wallet-backup" />
+                <data android:mimeType="application/x-faircoin-wallet-backup" />
             </intent-filter>
         </activity>
         <activity
@@ -190,11 +187,11 @@
 
         <provider
             android:name="de.schildbach.wallet.data.ExchangeRatesProvider"
-            android:authorities="de.schildbach.wallet_test.exchange_rates"
+            android:authorities="de.schildbach.wallet.exchange_rates"
             android:exported="false" />
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="de.schildbach.wallet_test.file_attachment"
+            android:authorities="de.schildbach.wallet.file_attachment"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data

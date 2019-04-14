@@ -70,8 +70,6 @@ public class BlockListAdapter extends ListAdapter<BlockListAdapter.ListItem, Blo
         public final Sha256Hash blockHash;
         public final int height;
         public final String time;
-        public final boolean isMiningRewardHalvingPoint;
-        public final boolean isDifficultyTransitionPoint;
         public final MonetaryFormat format;
         public final List<ListTransaction> transactions;
 
@@ -86,8 +84,6 @@ public class BlockListAdapter extends ListAdapter<BlockListAdapter.ListItem, Blo
                         DateUtils.WEEK_IN_MILLIS, 0).toString();
             else
                 this.time = context.getString(R.string.block_row_now);
-            this.isMiningRewardHalvingPoint = isMiningRewardHalvingPoint(block);
-            this.isDifficultyTransitionPoint = isDifficultyTransitionPoint(block);
             this.format = format;
             this.transactions = new LinkedList<>();
             if (transactions != null && wallet != null) {
@@ -97,14 +93,6 @@ public class BlockListAdapter extends ListAdapter<BlockListAdapter.ListItem, Blo
                         this.transactions.add(new ListTransaction(context, tx, wallet, addressBook));
                 }
             }
-        }
-
-        private final boolean isMiningRewardHalvingPoint(final StoredBlock storedPrev) {
-            return ((storedPrev.getHeight() + 1) % 210000) == 0;
-        }
-
-        private final boolean isDifficultyTransitionPoint(final StoredBlock storedPrev) {
-            return ((storedPrev.getHeight() + 1) % Constants.NETWORK_PARAMETERS.getInterval()) == 0;
         }
 
         public static class ListTransaction {
@@ -187,9 +175,6 @@ public class BlockListAdapter extends ListAdapter<BlockListAdapter.ListItem, Blo
 
         holder.heightView.setText(Integer.toString(listItem.height));
         holder.timeView.setText(listItem.time);
-        holder.miningRewardAdjustmentView.setVisibility(listItem.isMiningRewardHalvingPoint ? View.VISIBLE : View.GONE);
-        holder.miningDifficultyAdjustmentView
-                .setVisibility(listItem.isDifficultyTransitionPoint ? View.VISIBLE : View.GONE);
         holder.hashView.setText(WalletUtils.formatHash(null, listItem.blockHash.toString(), 8, 0, ' '));
 
         final int transactionChildCount = holder.transactionsViewGroup.getChildCount() - ROW_BASE_CHILD_COUNT;
@@ -243,8 +228,6 @@ public class BlockListAdapter extends ListAdapter<BlockListAdapter.ListItem, Blo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ViewGroup transactionsViewGroup;
-        private final View miningRewardAdjustmentView;
-        private final View miningDifficultyAdjustmentView;
         private final TextView heightView;
         private final TextView timeView;
         private final TextView hashView;
@@ -253,8 +236,6 @@ public class BlockListAdapter extends ListAdapter<BlockListAdapter.ListItem, Blo
         private ViewHolder(final View itemView) {
             super(itemView);
             transactionsViewGroup = (ViewGroup) itemView.findViewById(R.id.block_list_row_transactions_group);
-            miningRewardAdjustmentView = itemView.findViewById(R.id.block_list_row_mining_reward_adjustment);
-            miningDifficultyAdjustmentView = itemView.findViewById(R.id.block_list_row_mining_difficulty_adjustment);
             heightView = (TextView) itemView.findViewById(R.id.block_list_row_height);
             timeView = (TextView) itemView.findViewById(R.id.block_list_row_time);
             hashView = (TextView) itemView.findViewById(R.id.block_list_row_hash);

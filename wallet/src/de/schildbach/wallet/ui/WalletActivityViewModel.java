@@ -139,8 +139,7 @@ public class WalletActivityViewModel extends AndroidViewModel implements OnFirst
                 @Override
                 public void run() {
                     org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
-                    postValue(wallet.getActiveKeyChain().getOutputScriptType() == Script.ScriptType.P2WPKH
-                            && wallet.getActiveKeyChains().get(0).getOutputScriptType() != Script.ScriptType.P2WPKH);
+                    postValue(false);
                 }
             });
         }
