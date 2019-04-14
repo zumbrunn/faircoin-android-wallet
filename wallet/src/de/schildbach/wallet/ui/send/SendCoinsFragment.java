@@ -419,7 +419,7 @@ public final class SendCoinsFragment extends Fragment {
             final String mimeType = intent.getType();
 
             if ((Intent.ACTION_VIEW.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
-                    && intentUri != null && "bitcoin".equals(scheme)) {
+                    && intentUri != null && "faircoin".equals(scheme)) {
                 initStateFromBitcoinUri(intentUri);
             } else if ((NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
                     && PaymentProtocol.MIMETYPE_PAYMENTREQUEST.equals(mimeType)) {
@@ -638,6 +638,7 @@ public final class SendCoinsFragment extends Fragment {
 
         final MenuItem feeCategoryAction = menu.findItem(R.id.send_coins_options_fee_category);
         feeCategoryAction.setEnabled(viewModel.state == SendCoinsViewModel.State.INPUT);
+        feeCategoryAction.setVisible(false); // disable fee categories
         if (viewModel.feeCategory == FeeCategory.ECONOMIC)
             menu.findItem(R.id.send_coins_options_fee_category_economic).setChecked(true);
         else if (viewModel.feeCategory == FeeCategory.NORMAL)
@@ -778,9 +779,12 @@ public final class SendCoinsFragment extends Fragment {
         sendRequest.emptyWallet = viewModel.paymentIntent.mayEditAmount()
                 && finalAmount.equals(wallet.getBalance(BalanceType.AVAILABLE));
         sendRequest.feePerKb = fees.get(viewModel.feeCategory);
+        // TODO: implement to take dynamic fee rate from the FairCoin2 dynamic chainparametners
         sendRequest.memo = viewModel.paymentIntent.memo;
         sendRequest.exchangeRate = amountCalculatorLink.getExchangeRate();
         sendRequest.aesKey = encryptionKey;
+
+        log.info("FairCoin2: got fee category {} / feePerKb {}", viewModel.feeCategory, sendRequest.feePerKb.toFriendlyString());
 
         final Coin fee = viewModel.dryrunTransaction.getFee();
         if (fee.isGreaterThan(finalAmount)) {
@@ -986,6 +990,7 @@ public final class SendCoinsFragment extends Fragment {
                     sendRequest.emptyWallet = viewModel.paymentIntent.mayEditAmount()
                             && amount.equals(wallet.getBalance(BalanceType.AVAILABLE));
                     sendRequest.feePerKb = fees.get(viewModel.feeCategory);
+                    //sendRequest.feePerKb = wallet.getCurrentTransactionFee();
                     wallet.completeTx(sendRequest);
                     viewModel.dryrunTransaction = sendRequest.tx;
                 } catch (final Exception x) {

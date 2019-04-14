@@ -21,13 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -532,6 +526,21 @@ public class BlockchainService extends LifecycleService {
             });
         }
         wallet = new WalletLiveData(application);
+
+//        if (wallet.isFairCoin1Upgrade()) {
+//            log.info("FairCoin1 upgrade detected. Deleteing old blockchain file");
+//            blockChainFile.delete();
+//            config.resetBestChainHeightEver();
+//        }
+
+        /* In case there is a FairCoin1 blockchain we reset the 'best chain ever' config value.
+           This check is needed because there were early versions of this wallet w/o the fix above.
+           This check can be safely removed in one of the next versions. */
+        if ((Calendar.getInstance().get(Calendar.YEAR) == 2018) && (config.getBestChainHeightEver() > 300000)) {
+            log.info("Excessive best height detected in configuration. Resetting it.");
+            config.resetBestChainHeightEver();
+        }
+
         wallet.observe(this, new Observer<Wallet>() {
             @Override
             public void onChanged(final Wallet wallet) {

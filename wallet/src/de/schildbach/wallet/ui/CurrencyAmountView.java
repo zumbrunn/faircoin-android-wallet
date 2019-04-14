@@ -120,32 +120,17 @@ public final class CurrencyAmountView extends FrameLayout {
     }
 
     public void setCurrencySymbol(@Nullable final String currencyCode) {
-        final String bitcoinSymbol = Character.toString(Constants.CHAR_BITCOIN);
-        final boolean hasBitcoinSymbol = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && textView.getPaint().hasGlyph(bitcoinSymbol);
         final float textSize = textView.getTextSize();
         final float smallerTextSize = textSize * (20f / 24f);
         final float offset = textSize * 0.37f;
         if (MonetaryFormat.CODE_BTC.equals(currencyCode)) {
-            if (hasBitcoinSymbol)
-                currencySymbolDrawable = new CurrencySymbolDrawable(bitcoinSymbol, smallerTextSize,
-                        lessSignificantColor, offset);
-            else
-                currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_btc);
+            currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_btc);
             localCurrencyCode = null;
         } else if (MonetaryFormat.CODE_MBTC.equals(currencyCode)) {
-            if (hasBitcoinSymbol)
-                currencySymbolDrawable = new CurrencySymbolDrawable("m" + bitcoinSymbol, smallerTextSize,
-                        lessSignificantColor, offset);
-            else
-                currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_mbtc);
+            currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_mbtc);
             localCurrencyCode = null;
         } else if (MonetaryFormat.CODE_UBTC.equals(currencyCode)) {
-            if (hasBitcoinSymbol)
-                currencySymbolDrawable = new CurrencySymbolDrawable("µ" + bitcoinSymbol, smallerTextSize,
-                        lessSignificantColor, offset);
-            else
-                currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_ubtc);
+            currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_ubtc);
             localCurrencyCode = null;
         } else if (currencyCode != null) {
             currencySymbolDrawable = new CurrencySymbolDrawable(GenericUtils.currencySymbol(currencyCode),

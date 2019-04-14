@@ -49,7 +49,6 @@ import org.bitcoinj.core.Address;
 import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.core.SegwitAddress;
 import org.bitcoinj.core.Sha256Hash;
 import org.bitcoinj.core.UTXO;
 import org.bitcoinj.script.Script;
@@ -139,15 +138,8 @@ public final class RequestWalletBalanceTask {
                     final Address legacyAddress = LegacyAddress.fromKey(Constants.NETWORK_PARAMETERS, key);
                     final Script[] outputScripts;
                     final String addressesStr;
-                    if (key.isCompressed()) {
-                        final Address segwitAddress = SegwitAddress.fromKey(Constants.NETWORK_PARAMETERS, key);
-                        outputScripts = new Script[] { ScriptBuilder.createP2PKHOutputScript(legacyAddress.getHash()),
-                                ScriptBuilder.createP2WPKHOutputScript(segwitAddress.getHash()) };
-                        addressesStr = legacyAddress.toString() + "," + segwitAddress.toString();
-                    } else {
-                        outputScripts = new Script[] { ScriptBuilder.createP2PKHOutputScript(legacyAddress.getHash()) };
-                        addressesStr = legacyAddress.toString();
-                    }
+                    outputScripts = new Script[] { ScriptBuilder.createP2PKHOutputScript(legacyAddress.getHash()) };
+                    addressesStr = legacyAddress.toString();
                     log.info("trying to request wallet balance for {} from {}", addressesStr, server.socketAddress);
                     final Socket socket;
                     if (server.type == ElectrumServer.Type.TLS) {
