@@ -17,6 +17,10 @@
 
 package de.schildbach.wallet.ui;
 
+import android.content.ComponentName;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import org.bitcoinj.core.PrefixedChecksummedBytes;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.VerificationException;
@@ -70,6 +74,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.List;
+
 /**
  * @author Andreas Schildbach
  */
@@ -83,6 +89,7 @@ public final class WalletActivity extends AbstractWalletActivity {
     private View levitateView;
 
     private static final int REQUEST_CODE_SCAN = 0;
+    private static final int REQUEST_CODE_RATES_ADDON = 1;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -197,9 +204,7 @@ public final class WalletActivity extends AbstractWalletActivity {
         else
             viewModel.animationFinished();
 
-        final View exchangeRatesFragment = findViewById(R.id.wallet_main_twopanes_exchange_rates);
-        if (exchangeRatesFragment != null)
-            exchangeRatesFragment.setVisibility(Constants.ENABLE_EXCHANGE_RATES ? View.VISIBLE : View.GONE);
+        initializeRates();
 
         if (savedInstanceState == null && CrashReporter.hasSavedCrashTrace())
             viewModel.showReportCrashDialog.setValue(Event.simple());
@@ -211,6 +216,31 @@ public final class WalletActivity extends AbstractWalletActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         MaybeMaintenanceFragment.add(fragmentManager);
         AlertDialogsFragment.add(fragmentManager);
+    }
+
+    private void initializeRates() {
+        // look for addons
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory("de.schildbach.wallet.faircoin.intent.category.ADDON");
+
+        PackageManager pm = getPackageManager();
+        // list contains all activities that match your filters in mainIntent
+        List<ResolveInfo> list = pm.queryIntentActivities(mainIntent, 0);
+
+        // NOTICE: We only support one price provider (ie one addon)
+        // We always assume the first addon found
+
+        if(list.size()> 0) {
+            ResolveInfo item = list.get(0);
+
+            ActivityInfo activity = item.activityInfo;
+            ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+            Intent i = new Intent(Intent.ACTION_MAIN);
+
+            i.setComponent(name);
+
+            startActivityForResult(i, REQUEST_CODE_RATES_ADDON);
+        }
     }
 
     @Override
@@ -392,6 +422,19 @@ public final class WalletActivity extends AbstractWalletActivity {
                         dialog(WalletActivity.this, null, R.string.button_scan, messageResId, messageArgs);
                     }
                 }.parse();
+            }
+        } else if (requestCode == REQUEST_CODE_RATES_ADDON) {
+            if (resultCode == Activity.RESULT_OK ) {
+                final String source = intent.getStringExtra("source");
+                final String url = intent.getStringExtra("url");
+
+                Configuration config = application.getConfiguration();
+                config.setExchangeRatesSource(source);
+                config.setExchangeRatesUrl(url);
+
+                final View exchangeRatesFragment = findViewById(R.id.wallet_main_twopanes_exchange_rates);
+                if (exchangeRatesFragment != null)
+                    exchangeRatesFragment.setVisibility(Constants.ENABLE_EXCHANGE_RATES ? View.VISIBLE : View.GONE);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, intent);

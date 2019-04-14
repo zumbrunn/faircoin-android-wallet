@@ -43,6 +43,9 @@ public class Configuration {
     private final SharedPreferences prefs;
     private final Resources res;
 
+    private static final String GETFAIRCOIN_URL = "https://download.faircoin.world/api/ticker";
+    private static final String GETFAIRCOIN_SOURCE = "getfaircoin.net";
+
     public static final String PREFS_KEY_BTC_PRECISION = "btc_precision";
     public static final String PREFS_KEY_OWN_NAME = "own_name";
     public static final String PREFS_KEY_SEND_COINS_AUTOCLOSE = "send_coins_autoclose";
@@ -66,6 +69,8 @@ public class Configuration {
     public static final String PREFS_KEY_REMIND_BACKUP = "remind_backup";
     private static final String PREFS_KEY_LAST_BACKUP = "last_backup";
     private static final String PREFS_KEY_LAST_BLUETOOTH_ADDRESS = "last_bluetooth_address";
+    private static final String PREFS_KEY_EXCHANGE_RATES_URL = "https://download.faircoin.world/api/ticker";
+    private static final String PREFS_KEY_EXCHANGE_RATES_SOURCE = "getfaircoin.net";
 
     private static final int PREFS_DEFAULT_BTC_SHIFT = 0;
     private static final int PREFS_DEFAULT_BTC_PRECISION = 2;
@@ -177,6 +182,22 @@ public class Configuration {
 
     public boolean getDisclaimerEnabled() {
         return prefs.getBoolean(PREFS_KEY_DISCLAIMER, true);
+    }
+
+    public String getExchangeRatesUrl() {
+        return prefs.getString(PREFS_KEY_EXCHANGE_RATES_URL, GETFAIRCOIN_URL);
+    }
+
+    public void setExchangeRatesUrl(final String exchangeRatesUrl) {
+        prefs.edit().putString(PREFS_KEY_EXCHANGE_RATES_URL, exchangeRatesUrl).apply();
+    }
+
+    public String getExchangeRatesSource() {
+        return prefs.getString(PREFS_KEY_EXCHANGE_RATES_SOURCE, GETFAIRCOIN_SOURCE);
+    }
+
+    public void setExchangeRatesSource(final String exchangeRatesSource) {
+        prefs.edit().putString(PREFS_KEY_EXCHANGE_RATES_SOURCE, exchangeRatesSource).apply();
     }
 
     public String getExchangeCurrencyCode() {

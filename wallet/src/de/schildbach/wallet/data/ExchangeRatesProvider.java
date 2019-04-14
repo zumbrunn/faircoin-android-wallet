@@ -73,9 +73,6 @@ public class ExchangeRatesProvider extends ContentProvider {
     private Map<String, ExchangeRate> exchangeRates = null;
     private long lastUpdated = 0;
 
-    private static final HttpUrl GETFAIRCOIN_URL = HttpUrl.parse("https://download.faircoin.world/api/ticker");
-    private static final String GETFAIRCOIN_SOURCE = "getfaircoin.net";
-
     private static final long UPDATE_FREQ_MS = 10 * DateUtils.MINUTE_IN_MILLIS;
 
     private static final Logger log = LoggerFactory.getLogger(ExchangeRatesProvider.class);
@@ -230,8 +227,10 @@ public class ExchangeRatesProvider extends ContentProvider {
     private Map<String, ExchangeRate> requestExchangeRates() {
         final Stopwatch watch = Stopwatch.createStarted();
 
+        HttpUrl exchangeRatesUrl = HttpUrl.parse(config.getExchangeRatesUrl());
+
         final Request.Builder request = new Request.Builder();
-        request.url(GETFAIRCOIN_URL);
+        request.url(exchangeRatesUrl);
         request.header("User-Agent", userAgent);
 
         final Call call = Constants.HTTP_CLIENT.newCall(request.build());
@@ -249,23 +248,23 @@ public class ExchangeRatesProvider extends ContentProvider {
                         final Fiat rate = parseFiatInexact(currencyCode, exchangeRate.getString("last"));
                         if (rate.signum() > 0)
                             rates.put(currencyCode, new ExchangeRate(
-                                    new org.bitcoinj.utils.ExchangeRate(rate), GETFAIRCOIN_SOURCE));
+                                    new org.bitcoinj.utils.ExchangeRate(rate), config.getExchangeRatesSource()));
                     } catch (final IllegalArgumentException x) {
                         log.warn("problem fetching {} exchange rate from {}: {}", currencyCode,
-                                GETFAIRCOIN_URL, x.getMessage());
+                                exchangeRatesUrl, x.getMessage());
                     }
                 }
 
                 watch.stop();
-                log.info("fetched exchange rates from {}, {} chars, took {}", GETFAIRCOIN_URL, content.length(),
+                log.info("fetched exchange rates from {}, {} chars, took {}", exchangeRatesUrl, content.length(),
                         watch);
 
                 return rates;
             } else {
-                log.warn("http status {} when fetching exchange rates from {}", response.code(), GETFAIRCOIN_URL);
+                log.warn("http status {} when fetching exchange rates from {}", response.code(), exchangeRatesUrl);
             }
         } catch (final Exception x) {
-            log.warn("problem fetching exchange rates from " + GETFAIRCOIN_URL, x);
+            log.warn("problem fetching exchange rates from " + exchangeRatesUrl, x);
         }
 
         return null;
