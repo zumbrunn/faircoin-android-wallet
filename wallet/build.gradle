@@ -68,16 +68,16 @@ android {
         targetSdkVersion 28
     }
 
-//    buildTypes {
-//        all {
-//            minifyEnabled true
-//            shrinkResources true
-//            //proguardFile 'proguard.cfg'
-//        }
-//        debug {
-//            debuggable true
-//        }
-//    }
+    buildTypes {
+        all {
+            minifyEnabled true
+            shrinkResources true
+            proguardFile 'proguard.cfg'
+        }
+        debug {
+            debuggable true
+        }
+    }
 
     sourceSets {
         main {
