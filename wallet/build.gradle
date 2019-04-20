@@ -48,7 +48,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'de.schildbach.wallet'
+        applicationId 'de.schildbach.wallet.faircoin'
         generatedDensities = ['hdpi', 'xhdpi']
 
         dexOptions {
